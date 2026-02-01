@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .terms-container {max-width: 800px; margin: 40px auto; padding: 20px;}
+        .section {margin: 25px 0; padding-bottom: 20px; border-bottom: 1px solid #eee;}
+    </style>
+</head>
+<body>
+    <div class="terms-container">
+        <h1><i class="fas fa-file-contract"></i> Terms of Service</h1>
+        <p class="update-date">Effective: December 15, 2023</p>
+        
+        <div class="section">
+            <h2>1. Acceptance of Terms</h2>
+            <p>By accessing and using MedCare Hospital's services, you agree to these Terms of Service.</p>
+        </div>
+        
+        <div class="section">
+            <h2>2. Medical Services</h2>
+            <p>Our services include medical consultations, treatments, and emergency care. All medical advice is provided by licensed professionals.</p>
+        </div>
+        
+        <div class="section">
+            <h2>3. Patient Responsibilities</h2>
+            <ul>
+                <li>Provide accurate medical history</li>
+                <li>Follow prescribed treatments</li>
+                <li>Pay for services rendered</li>
+                <li>Respect hospital staff and policies</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>4. Appointment Policy</h2>
+            <p>Appointments must be canceled at least 24 hours in advance. Late cancellations may incur fees.</p>
+        </div>
+        
+        <div class="section">
+            <h2>5. Payment Terms</h2>
+            <p>Payment is due at time of service unless prior arrangements are made with billing department.</p>
+        </div>
+        
+        <div class="section">
+            <h2>6. Liability</h2>
+            <p>MedCare Hospital is not liable for treatment outcomes that are beyond medical control.</p>
+        </div>
+        
+        <div class="section">
+            <h2>7. Changes to Terms</h2>
+            <p>We may update these terms periodically. Continued use constitutes acceptance.</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <button class="btn btn-primary" onclick="acceptTerms()">
+                <i class="fas fa-check-circle"></i> I Accept Terms
+            </button>
+            <a href="contact.html" class="btn btn-outline">
+                <i class="fas fa-question-circle"></i> Questions?
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function acceptTerms() {
+            alert("Thank you for accepting our Terms of Service!");
+            localStorage.setItem('termsAccepted', 'true');
+        }
+    </script>
+</body>
+</html>

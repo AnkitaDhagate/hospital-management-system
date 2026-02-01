@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Services - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .services-page {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 20px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-left: 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .services-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card-detailed {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-card-detailed:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .service-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-card-detailed:hover .service-image img {
+            transform: scale(1.1);
+        }
+        
+        .service-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .service-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .service-title {
+            color: var(--secondary-color);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .service-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .service-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .service-features-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .service-features-list li i {
+            color: var(--success-color);
+            font-size: 0.9rem;
+        }
+        
+        .service-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+        
+        .btn-book {
+            flex: 1;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-book:hover {
+            background: #2980b9;
+        }
+        
+        .btn-info {
+            width: 45px;
+            height: 45px;
+            background: var(--bg-light);
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .btn-info:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .emergency-services {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-top: 4rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+        
+        .emergency-services h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-services p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .emergency-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            color: var(--accent-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .emergency-contact:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .emergency-contact i {
+            font-size: 2rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .no-services {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-light);
+        }
+        
+        .no-services i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+        
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-actions {
+                flex-direction: column;
+            }
+            
+            .btn-info {
+                width: 100%;
+            }
+            
+            .emergency-services {
+                padding: 2rem;
+            }
+            
+            .emergency-contact {
+                font-size: 1.25rem;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="heart-rate">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100px" height="50px" viewBox="0 0 1280.000000 640.000000">
+                    <path fill="#3498db" d="M0 320v320h1280V0H0v320zm345-175l95 145 100-150 95 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145"/>
+                </svg>
+            </div>
+            <div class="loading-text">Loading Services...</div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span class="logo-text">MedCare<span class="logo-highlight">Hospital</span></span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="services.html" class="nav-link active">
+                            <i class="fas fa-stethoscope"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#doctors" class="nav-link">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="appointment.html" class="nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                </div>
+
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="services-page">
+        <div class="container">
+            <div class="page-header animate__animated animate__fadeInDown">
+                <h1>Our Medical Services</h1>
+                <p>Comprehensive healthcare services delivered with compassion and excellence by our expert medical team.</p>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="serviceSearch" placeholder="Search for medical services, treatments, or specialists...">
+                </div>
+            </div>
+            
+            <div class="services-categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th-large"></i> All Services
+                </button>
+                <button class="category-btn" data-category="cardiology">
+                    <i class="fas fa-heartbeat"></i> Cardiology
+                </button>
+                <button class="category-btn" data-category="neurology">
+                    <i class="fas fa-brain"></i> Neurology
+                </button>
+                <button class="category-btn" data-category="orthopedics">
+                    <i class="fas fa-bone"></i> Orthopedics
+                </button>
+                <button class="category-btn" data-category="pediatrics">
+                    <i class="fas fa-baby"></i> Pediatrics
+                </button>
+                <button class="category-btn" data-category="emergency">
+                    <i class="fas fa-ambulance"></i> Emergency
+                </button>
+            </div>
+            
+            <div class="services-grid" id="servicesContainer">
+                <!-- Services will be loaded here -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded here -->
+            </div>
+            
+            <div class="emergency-services animate__animated animate__fadeInUp">
+                <h2><i class="fas fa-ambulance"></i> Emergency Medical Services</h2>
+                <p>Our emergency department operates 24/7 with a team of specialized trauma doctors and nurses ready to handle any medical emergency.</p>
+                <a href="tel:+18001234567" class="emergency-contact">
+                    <i class="fas fa-phone"></i> +1-800-123-4567
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Modal -->
+    <div class="modal" id="serviceModal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modalServiceName"></h3>
+                <button class="modal-close" onclick="closeServiceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalServiceContent">
+                    <!-- Service details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Services data
+        const services = [
+            {
+                id: 1,
+                name: "Cardiology Consultation",
+                category: "cardiology",
+                price: 800,
+                description: "Comprehensive heart health assessment and consultation with our expert cardiologists.",
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "ECG & Echocardiography",
+                    "Stress Test Analysis",
+                    "Blood Pressure Management",
+                    "Heart Disease Prevention"
+                ],
+                duration: "60 mins",
+                doctors: ["Dr. Sarah Smith", "Dr. James Wilson"]
+            },
+            {
+                id: 2,
+                name: "Neurology Assessment",
+                category: "neurology",
+                price: 1000,
+                description: "Advanced neurological evaluation and treatment for brain and nervous system disorders.",
+                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "EEG & EMG Testing",
+                    "Brain Imaging Analysis",
+                    "Headache Management",
+                    "Stroke Prevention"
+                ],
+                duration: "90 mins",
+                doctors: ["Dr. Robert Johnson", "Dr. Emily Chen"]
+            },
+            {
+                id: 3,
+                name: "Orthopedic Surgery",
+                category: "orthopedics",
+                price: 5000,
+                description: "Advanced surgical procedures for bone, joint, and muscle conditions.",
+                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "Joint Replacement",
+                    "Fracture Repair",
+                    "Arthroscopic Surgery",
+                    "Sports Injury Treatment"
+                ],
+                duration: "3-4 hours",
+                doctors: ["Dr. Michael Williams", "Dr. Lisa Brown"]
+            },
+            {
+                id: 4,
+                name: "Pediatric Checkup",
+                category: "pediatrics",
+                price: 300,
+                description: "Complete health assessment for children with vaccination and growth monitoring.",
+                image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "Growth Monitoring",
+                    "Vaccination Schedule",
+                    "Nutrition Counseling",
+                    "Development Assessment"
+                ],
+                duration: "45 mins",
+                doctors: ["Dr. Emily Brown", "Dr. David Miller"]
+            },
+            {
+                id: 5,
+                name: "Emergency Trauma Care",
+                category: "emergency",
+                price: 1500,
+                description: "Immediate medical attention for critical injuries and life-threatening conditions.",
+                image: "https://images.unsplash.com/photo-1516549655669-df5618d8d7e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "24/7 Availability",
+                    "Trauma Team Response",
+                    "Critical Care Facilities",
+                    "Advanced Life Support"
+                ],
+                duration: "Varies",
+                doctors: ["Emergency Team"]
+            },
+            {
+                id: 6,
+                name: "MRI Scanning",
+                category: "diagnostics",
+                price: 1200,
+                description: "High-resolution magnetic resonance imaging for detailed internal examination.",
+                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: [
+                    "Whole Body Scan",
+                    "Brain & Spine Imaging",
+                    "Joint Assessment",
+                    "Contrast Imaging"
+                ],
+                duration: "60-90 mins",
+                doctors: ["Radiology Team"]
+            }
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+            setupSearch();
+            setupCategoryFilters();
+        });
+        
+        // Load services
+        function loadServices(filter = 'all', search = '') {
+            const container = document.getElementById('servicesContainer');
+            const filteredServices = services.filter(service => {
+                const matchesCategory = filter === 'all' || service.category === filter;
+                const matchesSearch = !search || 
+                    service.name.toLowerCase().includes(search.toLowerCase()) ||
+                    service.description.toLowerCase().includes(search.toLowerCase()) ||
+                    service.category.toLowerCase().includes(search.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+            
+            if (filteredServices.length === 0) {
+                container.innerHTML = `
+                    <div class="no-services" style="grid-column: 1 / -1;">
+                        <i class="fas fa-search"></i>
+                        <h3>No services found</h3>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            filteredServices.forEach(service => {
+                html += `
+                    <div class="service-card-detailed animate__animated animate__fadeInUp">
+                        <div class="service-image">
+                            <img src="${service.image}" alt="${service.name}">
+                            <span class="service-category">${service.category.charAt(0).toUpperCase() + service.category.slice(1)}</span>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-header">
+                                <h3 class="service-title">${service.name}</h3>
+                                <div class="service-price">$${service.price}</div>
+                            </div>
+                            <p class="service-description">${service.description}</p>
+                            <ul class="service-features-list">
+                                ${service.features.map(feature => `
+                                    <li><i class="fas fa-check"></i> ${feature}</li>
+                                `).join('')}
+                            </ul>
+                            <div class="service-actions">
+                                <button class="btn-book" onclick="bookService(${service.id})">
+                                    <i class="fas fa-calendar-check"></i> Book Now
+                                </button>
+                                <button class="btn-info" onclick="showServiceDetails(${service.id})">
+                                    <i class="fas fa-info"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            setupPagination(filteredServices.length);
+        }
+        
+        // Setup search
+        function setupSearch() {
+            const searchInput = document.getElementById('serviceSearch');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const activeCategory = document.querySelector('.category-btn.active').getAttribute('data-category');
+                    loadServices(activeCategory, this.value);
+                }, 300);
+            });
+        }
+        
+        // Setup category filters
+        function setupCategoryFilters() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    const search = document.getElementById('serviceSearch').value;
+                    loadServices(category, search);
+                });
+            });
+        }
+        
+        // Setup pagination
+        function setupPagination(totalItems) {
+            const itemsPerPage = 6;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button class="page-btn ${i === 1 ? 'active' : ''}" onclick="goToPage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            pagination.innerHTML = html;
+        }
+        
+        // Go to page
+        function goToPage(page) {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real app, this would load the specific page of services
+            // For demo, we'll just scroll to top
+            window.scrollTo({
+                top: 400,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Book service
+        function bookService(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            if (!service) return;
+            
+            // Store service in sessionStorage for booking page
+            sessionStorage.setItem('selectedService', JSON.stringify(service));
+            
+            // Redirect to appointment page
+            window.location.href = `appointment.html?service=${service.category}`;
+        }
+        
+        // Show service details modal
+        function showServiceDetails(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            if (!service) return;
+            
+            document.getElementById('modalServiceName').textContent = service.name;
+            
+            const modalContent = document.getElementById('modalServiceContent');
+            modalContent.innerHTML = `
+                <div class="service-modal-content">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div>
+                            <img src="${service.image}" alt="${service.name}" style="width: 100%; border-radius: var(--radius);">
+                        </div>
+                        <div>
+                            <div style="background: var(--bg-light); padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem;">
+                                <h4 style="margin: 0 0 0.5rem 0; color: var(--secondary-color);">Service Details</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                                    <div>
+                                        <strong>Price:</strong>
+                                        <div style="color: var(--primary-color); font-size: 1.25rem; font-weight: 600;">$${service.price}</div>
+                                    </div>
+                                    <div>
+                                        <strong>Duration:</strong>
+                                        <div>${service.duration}</div>
+                                    </div>
+                                    <div>
+                                        <strong>Category:</strong>
+                                        <div>${service.category.charAt(0).toUpperCase() + service.category.slice(1)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4 style="margin-bottom: 0.5rem; color: var(--secondary-color);">Available Doctors</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                ${service.doctors.map(doctor => `
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: white; border-radius: var(--radius); border: 1px solid var(--border-color);">
+                                        <i class="fas fa-user-md" style="color: var(--primary-color);"></i>
+                                        <span>${doctor}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--secondary-color);">Description</h4>
+                        <p style="color: var(--text-light);">${service.description}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--secondary-color);">Service Features</h4>
+                        <ul style="columns: 2; gap: 2rem;">
+                            ${service.features.map(feature => `
+                                <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text-light);">
+                                    <i class="fas fa-check" style="color: var(--success-color);"></i>
+                                    ${feature}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-primary btn-lg" onclick="bookService(${service.id}); closeServiceModal()">
+                            <i class="fas fa-calendar-check"></i> Book This Service
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Show modal
+            document.getElementById('serviceModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close service modal
+        function closeServiceModal() {
+            document.getElementById('serviceModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('serviceModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeServiceModal();
+            }
+        });
+        
+        // Add modal styles
+        const modalStyles = document.createElement('style');
+        modalStyles.textContent = `
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                padding: 20px;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .modal-content {
+                background: white;
+                border-radius: var(--radius-lg);
+                max-width: 90%;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+                animation: slideUp 0.3s ease;
+            }
+            
+            .modal-header {
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                background: white;
+                z-index: 1;
+            }
+            
+            .modal-header h3 {
+                margin: 0;
+                color: var(--secondary-color);
+            }
+            
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: var(--text-light);
+                padding: 0.25rem;
+            }
+            
+            .modal-close:hover {
+                color: var(--text-color);
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes slideUp {
+                from { transform: translateY(50px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            
+            @media (max-width: 768px) {
+                .service-modal-content > div:first-child {
+                    grid-template-columns: 1fr !important;
+                }
+                
+                .service-modal-content ul {
+                    columns: 1 !important;
+                }
+            }
+        `;
+        document.head.appendChild(modalStyles);
+    </script>
+</body>
+</html>

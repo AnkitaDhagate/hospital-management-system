@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .register-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .register-header {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .register-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .register-header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+        }
+        
+        .register-form {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 0.25rem;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .strength-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .terms-agreement {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .terms-agreement input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .terms-agreement label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .terms-agreement a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .register-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .register-footer p {
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .register-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .user-type-selection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-type-card {
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .user-type-card:hover,
+        .user-type-card.active {
+            border-color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .user-type-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-type-card h4 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .user-type-card p {
+            font-size: 0.85rem;
+            margin: 0.25rem 0 0;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="heart-rate">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100px" height="50px" viewBox="0 0 1280.000000 640.000000">
+                    <path fill="#3498db" d="M0 320v320h1280V0H0v320zm345-175l95 145 100-150 95 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145"/>
+                </svg>
+            </div>
+            <div class="loading-text">Loading Registration...</div>
+        </div>
+    </div>
+
+    <div class="register-page">
+        <div class="register-container animate__animated animate__fadeInUp">
+            <div class="register-header">
+                <h1><i class="fas fa-user-plus"></i> Create Account</h1>
+                <p>Join MedCare Hospital for comprehensive healthcare services</p>
+            </div>
+            
+            <form class="register-form" id="registerForm">
+                <div class="user-type-selection">
+                    <div class="user-type-card active" data-type="patient">
+                        <i class="fas fa-user-injured"></i>
+                        <h4>Patient</h4>
+                        <p>Register as a patient</p>
+                    </div>
+                    <div class="user-type-card" data-type="doctor">
+                        <i class="fas fa-user-md"></i>
+                        <h4>Doctor</h4>
+                        <p>Medical professional</p>
+                    </div>
+                    <div class="user-type-card" data-type="staff">
+                        <i class="fas fa-user-tie"></i>
+                        <h4>Staff</h4>
+                        <p>Hospital staff member</p>
+                    </div>
+                </div>
+                
+                <input type="hidden" id="userType" value="patient">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">
+                            <i class="fas fa-user"></i> First Name
+                        </label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Enter first name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">
+                            <i class="fas fa-user"></i> Last Name
+                        </label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Enter last name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter email address" required>
+                    <div class="email-validation" style="display: none; font-size: 0.85rem; margin-top: 0.25rem;"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">
+                            <i class="fas fa-phone"></i> Phone Number
+                        </label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dob" class="form-label">
+                            <i class="fas fa-birthday-cake"></i> Date of Birth
+                        </label>
+                        <input type="date" id="dob" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address" class="form-label">
+                        <i class="fas fa-home"></i> Address
+                    </label>
+                    <textarea id="address" class="form-control" rows="2" placeholder="Enter complete address"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <div class="strength-text" id="strengthText">Password strength</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="fas fa-lock"></i> Confirm Password
+                        </label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required>
+                        <div class="password-match" style="font-size: 0.85rem; margin-top: 0.25rem;"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-id-card"></i> Additional Information
+                    </label>
+                    <div id="additionalFields">
+                        <!-- Patient specific fields -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <select id="bloodGroup" class="form-control">
+                                    <option value="">Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="emergencyContact" class="form-control" placeholder="Emergency Contact">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="terms-agreement">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                
+                <div class="register-footer">
+                    <p>Already have an account? <a href="login.html">Sign In</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // User type selection
+        const userTypeCards = document.querySelectorAll('.user-type-card');
+        const userTypeInput = document.getElementById('userType');
+        const additionalFields = document.getElementById('additionalFields');
+        
+        userTypeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                userTypeCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                const type = card.getAttribute('data-type');
+                userTypeInput.value = type;
+                updateAdditionalFields(type);
+            });
+        });
+        
+        function updateAdditionalFields(type) {
+            let html = '';
+            
+            switch(type) {
+                case 'patient':
+                    html = `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <select id="bloodGroup" class="form-control">
+                                    <option value="">Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="emergencyContact" class="form-control" placeholder="Emergency Contact">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select id="insuranceProvider" class="form-control">
+                                <option value="">Insurance Provider (Optional)</option>
+                                <option value="bluecross">Blue Cross</option>
+                                <option value="aetna">Aetna</option>
+                                <option value="cigna">Cigna</option>
+                                <option value="united">United Healthcare</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'doctor':
+                    html = `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="specialization" class="form-control" placeholder="Specialization" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="qualification" class="form-control" placeholder="Qualification" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="number" id="experience" class="form-control" placeholder="Years of Experience" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="licenseNumber" class="form-control" placeholder="Medical License Number" required>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'staff':
+                    html = `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <select id="department" class="form-control" required>
+                                    <option value="">Select Department</option>
+                                    <option value="admin">Administration</option>
+                                    <option value="reception">Reception</option>
+                                    <option value="nursing">Nursing</option>
+                                    <option value="lab">Laboratory</option>
+                                    <option value="pharmacy">Pharmacy</option>
+                                    <option value="billing">Billing</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="employeeId" class="form-control" placeholder="Employee ID (if any)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select id="position" class="form-control" required>
+                                <option value="">Select Position</option>
+                                <option value="receptionist">Receptionist</option>
+                                <option value="nurse">Nurse</option>
+                                <option value="technician">Technician</option>
+                                <option value="pharmacist">Pharmacist</option>
+                                <option value="administrator">Administrator</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            additionalFields.innerHTML = html;
+        }
+        
+        // Password strength checker
+        const passwordInput = document.getElementById('password');
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const passwordMatchDiv = document.querySelector('.password-match');
+        
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            let text = 'Very Weak';
+            let color = '#e74c3c';
+            
+            // Length check
+            if (password.length >= 8) strength += 1;
+            // Lowercase check
+            if (/[a-z]/.test(password)) strength += 1;
+            // Uppercase check
+            if (/[A-Z]/.test(password)) strength += 1;
+            // Number check
+            if (/[0-9]/.test(password)) strength += 1;
+            // Special character check
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            switch(strength) {
+                case 0:
+                case 1:
+                    text = 'Very Weak';
+                    color = '#e74c3c';
+                    break;
+                case 2:
+                    text = 'Weak';
+                    color = '#e67e22';
+                    break;
+                case 3:
+                    text = 'Medium';
+                    color = '#f39c12';
+                    break;
+                case 4:
+                    text = 'Strong';
+                    color = '#2ecc71';
+                    break;
+                case 5:
+                    text = 'Very Strong';
+                    color = '#27ae60';
+                    break;
+            }
+            
+            strengthFill.style.width = `${strength * 20}%`;
+            strengthFill.style.background = color;
+            strengthText.textContent = text;
+            strengthText.style.color = color;
+        });
+        
+        // Password match checker
+        confirmPasswordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword === '') {
+                passwordMatchDiv.textContent = '';
+                passwordMatchDiv.style.color = '';
+            } else if (password === confirmPassword) {
+                passwordMatchDiv.textContent = '✓ Passwords match';
+                passwordMatchDiv.style.color = '#27ae60';
+            } else {
+                passwordMatchDiv.textContent = '✗ Passwords do not match';
+                passwordMatchDiv.style.color = '#e74c3c';
+            }
+        });
+        
+        // Email validation
+        const emailInput = document.getElementById('email');
+        const emailValidationDiv = document.querySelector('.email-validation');
+        
+        emailInput.addEventListener('blur', function() {
+            const email = this.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email === '') {
+                emailValidationDiv.style.display = 'none';
+                return;
+            }
+            
+            if (!emailRegex.test(email)) {
+                emailValidationDiv.textContent = 'Please enter a valid email address';
+                emailValidationDiv.style.color = '#e74c3c';
+                emailValidationDiv.style.display = 'block';
+            } else {
+                // Simulate email availability check
+                emailValidationDiv.textContent = 'Checking availability...';
+                emailValidationDiv.style.color = '#3498db';
+                emailValidationDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    // For demo, assume email is available
+                    emailValidationDiv.textContent = '✓ Email is available';
+                    emailValidationDiv.style.color = '#27ae60';
+                }, 1000);
+            }
+        });
+        
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const userType = document.getElementById('userType').value;
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const dob = document.getElementById('dob').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validation
+            if (!firstName || !lastName || !email || !phone || !dob || !password || !confirmPassword) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Show loading
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+            
+            // Simulate registration process
+            setTimeout(() => {
+                // Success
+                showNotification('Account created successfully!', 'success');
+                
+                // Show success message
+                const successHtml = `
+                    <div class="registration-success animate__animated animate__fadeIn">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-check-circle" style="font-size: 4rem; color: #27ae60; margin-bottom: 1rem;"></i>
+                            <h2 style="color: #27ae60; margin-bottom: 1rem;">Registration Successful!</h2>
+                            <p>Your account has been created successfully. Please check your email for verification.</p>
+                            <div style="margin-top: 2rem;">
+                                <a href="login.html" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt"></i> Proceed to Login
+                                </a>
+                                <a href="../index.html" class="btn btn-outline" style="margin-left: 1rem;">
+                                    <i class="fas fa-home"></i> Back to Home
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.querySelector('.register-form').innerHTML = successHtml;
+                
+            }, 2000);
+        });
+        
+        // Initialize date input with sensible default
+        document.getElementById('dob').valueAsDate = new Date(new Date().getFullYear() - 30, 0, 1);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .doctor-profile-page {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .doctor-profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            align-items: center;
+        }
+        
+        .doctor-avatar-large {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-color);
+            flex-shrink: 0;
+        }
+        
+        .doctor-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doctor-info-header {
+            flex-grow: 1;
+        }
+        
+        .doctor-name {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .doctor-specialization {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .doctor-qualifications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .qualification-badge {
+            background: var(--bg-light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .doctor-rating-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 1.25rem;
+            color: var(--warning-color);
+        }
+        
+        .rating-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .doctor-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+            min-width: 200px;
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .about-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        .experience-list {
+            list-style: none;
+        }
+        
+        .experience-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 2px solid var(--primary-color);
+        }
+        
+        .experience-item:before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .experience-year {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .experience-position {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .experience-place {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .availability-schedule {
+            margin-top: 1rem;
+        }
+        
+        .day-schedule {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .day-schedule:last-child {
+            border-bottom: none;
+        }
+        
+        .day-name {
+            font-weight: 500;
+            color: var(--secondary-color);
+            min-width: 100px;
+        }
+        
+        .day-time {
+            color: var(--text-light);
+        }
+        
+        .day-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-unavailable {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .reviews-container {
+            margin-top: 1rem;
+        }
+        
+        .review-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .reviewer-name {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .review-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            color: var(--warning-color);
+        }
+        
+        .review-comment {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-light);
+            border-radius: var(--radius);
+        }
+        
+        .contact-info-item i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            width: 30px;
+        }
+        
+        .appointment-widget {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 120px;
+        }
+        
+        .widget-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .availability-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+        }
+        
+        .available-now {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .next-available {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .fee-display {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            border-radius: var(--radius);
+        }
+        
+        .fee-amount {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .fee-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .appointment-form-widget {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group-widget {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group-widget label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-control-widget {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-control-widget:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .doctor-stats {
+                justify-content: center;
+            }
+            
+            .profile-actions {
+                width: 100%;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .doctor-name {
+                font-size: 2rem;
+            }
+            
+            .doctor-qualifications {
+                justify-content: center;
+            }
+            
+            .doctor-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="heart-rate">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100px" height="50px" viewBox="0 0 1280.000000 640.000000">
+                    <path fill="#3498db" d="M0 320v320h1280V0H0v320zm345-175l95 145 100-150 95 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145"/>
+                </svg>
+            </div>
+            <div class="loading-text">Loading Doctor Profile...</div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span class="logo-text">MedCare<span class="logo-highlight">Hospital</span></span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="services.html" class="nav-link">
+                            <i class="fas fa-stethoscope"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html#doctors" class="nav-link active">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="appointment.html" class="nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                </div>
+
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="doctor-profile-page">
+        <div class="doctor-profile-container">
+            <!-- Doctor Profile Header -->
+            <div class="profile-header animate__animated animate__fadeInDown">
+                <div class="doctor-avatar-large">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         alt="Dr. Sarah Smith">
+                </div>
+                
+                <div class="doctor-info-header">
+                    <h1 class="doctor-name">Dr. Sarah Smith</h1>
+                    <div class="doctor-specialization">Senior Cardiologist</div>
+                    
+                    <div class="doctor-qualifications">
+                        <span class="qualification-badge">MD Cardiology</span>
+                        <span class="qualification-badge">FACC</span>
+                        <span class="qualification-badge">FRCP</span>
+                        <span class="qualification-badge">15+ Years Experience</span>
+                    </div>
+                    
+                    <div class="doctor-rating-container">
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span style="margin-left: 0.5rem; color: var(--text-color);">4.8</span>
+                        </div>
+                        <span class="rating-count">(245 reviews)</span>
+                    </div>
+                    
+                    <div class="doctor-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">2,500+</div>
+                            <div class="stat-label">Patients Treated</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">98%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="btn btn-primary btn-lg" onclick="bookAppointmentWithDoctor()">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </button>
+                    <button class="btn btn-outline" onclick="showContactOptions()">
+                        <i class="fas fa-phone"></i> Contact Doctor
+                    </button>
+                    <button class="btn btn-outline" onclick="shareDoctorProfile()">
+                        <i class="fas fa-share-alt"></i> Share Profile
+                    </button>
+                </div>
+            </div>
+            
+            <div class="profile-grid">
+                <!-- Left Column: Doctor Details -->
+                <div class="profile-left">
+                    <!-- About Section -->
+                    <div class="profile-section animate__animated animate__fadeInLeft">
+                        <h3><i class="fas fa-user-md"></i> About Dr. Sarah Smith</h3>
+                        <div class="about-content">
+                            <p>
+                                Dr. Sarah Smith is a renowned cardiologist with over 15 years of experience in diagnosing 
+                                and treating heart diseases. She specializes in interventional cardiology and has performed 
+                                over 5,000 successful cardiac procedures.
+                            </p>
+                            <p>
+                                Her areas of expertise include coronary artery disease, heart failure, valvular heart disease, 
+                                and preventive cardiology. Dr. Smith is committed to providing personalized care and believes 
+                                in a holistic approach to heart health.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Experience Section -->
+                    <div class="profile-section animate__animated animate__fadeInLeft">
+                        <h3><i class="fas fa-briefcase"></i> Professional Experience</h3>
+                        <div class="experience-list">
+                            <div class="experience-item">
+                                <div class="experience-year">2015 - Present</div>
+                                <div class="experience-position">Senior Cardiologist & Head of Department</div>
+                                <div class="experience-place">MedCare Hospital, New York</div>
+                            </div>
+                            <div class="experience-item">
+                                <div class="experience-year">2010 - 2015</div>
+                                <div class="experience-position">Cardiologist</div>
+                                <div class="experience-place">City Heart Center, Boston</div>
+                            </div>
+                            <div class="experience-item">
+                                <div class="experience-year">2008 - 2010</div>
+                                <div class="experience-position">Resident in Cardiology</div>
+                                <div class="experience-place">Harvard Medical School</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Specializations Section -->
+                    <div class="profile-section animate__animated animate__fadeInLeft">
+                        <h3><i class="fas fa-star"></i> Specializations & Expertise</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span class="qualification-badge" style="background: #e3f2fd; color: #1976d2;">Coronary Artery Disease</span>
+                            <span class="qualification-badge" style="background: #e8f5e9; color: #2e7d32;">Heart Failure Management</span>
+                            <span class="qualification-badge" style="background: #fff3e0; color: #ef6c00;">Valvular Heart Disease</span>
+                            <span class="qualification-badge" style="background: #f3e5f5; color: #7b1fa2;">Cardiac Imaging</span>
+                            <span class="qualification-badge" style="background: #e0f2f1; color: #00695c;">Preventive Cardiology</span>
+                            <span class="qualification-badge" style="background: #fff8e1; color: #ff8f00;">Heart Rhythm Disorders</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Section -->
+                    <div class="profile-section animate__animated animate__fadeInLeft">
+                        <h3><i class="fas fa-comments"></i> Patient Reviews</h3>
+                        <div class="reviews-container">
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <div class="reviewer-avatar">JD</div>
+                                        <div>
+                                            <div class="reviewer-name">John Doe</div>
+                                            <div class="review-date">2 weeks ago</div>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <div class="review-comment">
+                                    Dr. Smith saved my life. Her diagnosis was accurate and treatment was effective. 
+                                    Highly recommend her for any cardiac issues.
+                                </div>
+                            </div>
+                            
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <div class="reviewer-avatar">MS</div>
+                                        <div>
+                                            <div class="reviewer-name">Mary Smith</div>
+                                            <div class="review-date">1 month ago</div>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="review-comment">
+                                    Excellent doctor! Very thorough in her examination and explains everything clearly. 
+                                    The staff is also very helpful.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="viewAllReviews()">
+                            <i class="fas fa-eye"></i> View All Reviews
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Appointment Widget & Info -->
+                <div class="profile-right">
+                    <!-- Availability Widget -->
+                    <div class="appointment-widget animate__animated animate__fadeInRight">
+                        <div class="widget-header">
+                            <h3 style="margin: 0; color: var(--secondary-color);">
+                                <i class="fas fa-calendar-alt"></i> Book Appointment
+                            </h3>
+                        </div>
+                        
+                        <div class="availability-status available-now">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Available Today</span>
+                        </div>
+                        
+                        <div class="fee-display">
+                            <div class="fee-amount">$800</div>
+                            <div class="fee-label">Consultation Fee</div>
+                        </div>
+                        
+                        <div class="appointment-form-widget">
+                            <div class="form-group-widget">
+                                <label for="appointmentDateWidget">
+                                    <i class="fas fa-calendar"></i> Preferred Date
+                                </label>
+                                <input type="date" id="appointmentDateWidget" class="form-control-widget" 
+                                       min="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                            
+                            <div class="form-group-widget">
+                                <label for="appointmentTimeWidget">
+                                    <i class="fas fa-clock"></i> Preferred Time
+                                </label>
+                                <select id="appointmentTimeWidget" class="form-control-widget">
+                                    <option value="">Select Time Slot</option>
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="14:00">02:00 PM</option>
+                                    <option value="15:30">03:30 PM</option>
+                                    <option value="16:45">04:45 PM</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary" style="width: 100%;" onclick="bookAppointmentFromWidget()">
+                                <i class="fas fa-calendar-check"></i> Book Now
+                            </button>
+                        </div>
+                        
+                        <div style="text-align: center; font-size: 0.9rem; color: var(--text-light);">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Appointments confirmed within 24 hours</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Availability Schedule -->
+                    <div class="profile-section animate__animated animate__fadeInRight">
+                        <h3><i class="fas fa-clock"></i> Weekly Schedule</h3>
+                        <div class="availability-schedule">
+                            <div class="day-schedule">
+                                <span class="day-name">Monday</span>
+                                <span class="day-time">09:00 AM - 05:00 PM</span>
+                                <span class="day-status status-available">Available</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Tuesday</span>
+                                <span class="day-time">10:00 AM - 04:00 PM</span>
+                                <span class="day-status status-available">Available</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Wednesday</span>
+                                <span class="day-time">09:00 AM - 05:00 PM</span>
+                                <span class="day-status status-available">Available</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Thursday</span>
+                                <span class="day-time">Surgery Day</span>
+                                <span class="day-status status-unavailable">Limited</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Friday</span>
+                                <span class="day-time">09:00 AM - 03:00 PM</span>
+                                <span class="day-status status-available">Available</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Saturday</span>
+                                <span class="day-time">Emergency Only</span>
+                                <span class="day-status status-unavailable">Limited</span>
+                            </div>
+                            <div class="day-schedule">
+                                <span class="day-name">Sunday</span>
+                                <span class="day-time">Closed</span>
+                                <span class="day-status status-unavailable">Unavailable</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="profile-section animate__animated animate__fadeInRight">
+                        <h3><i class="fas fa-address-card"></i> Contact Information</h3>
+                        <div class="contact-info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <div style="font-weight: 500;">Phone Number</div>
+                                <div style="color: var(--text-light);">+1 (555) 123-4567</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div style="font-weight: 500;">Email Address</div>
+                                <div style="color: var(--text-light);">sarah.smith@medcarehospital.com</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-building"></i>
+                            <div>
+                                <div style="font-weight: 500;">Department</div>
+                                <div style="color: var(--text-light);">Cardiology, Floor 3</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <div style="font-weight: 500;">Location</div>
+                                <div style="color: var(--text-light);">MedCare Hospital, New York</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Initialize date picker for widget
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('appointmentDateWidget').valueAsDate = tomorrow;
+        });
+        
+        // Book appointment with doctor
+        function bookAppointmentWithDoctor() {
+            const doctorData = {
+                id: 1,
+                name: "Dr. Sarah Smith",
+                specialty: "Cardiologist",
+                fee: 800
+            };
+            
+            sessionStorage.setItem('selectedDoctor', JSON.stringify(doctorData));
+            window.location.href = 'appointment.html';
+        }
+        
+        // Book appointment from widget
+        function bookAppointmentFromWidget() {
+            const date = document.getElementById('appointmentDateWidget').value;
+            const time = document.getElementById('appointmentTimeWidget').value;
+            
+            if (!date || !time) {
+                showNotification('Please select both date and time', 'error');
+                return;
+            }
+            
+            const doctorData = {
+                id: 1,
+                name: "Dr. Sarah Smith",
+                specialty: "Cardiologist",
+                fee: 800,
+                selectedDate: date,
+                selectedTime: time
+            };
+            
+            sessionStorage.setItem('selectedDoctor', JSON.stringify(doctorData));
+            
+            // Show success message
+            showNotification('Redirecting to appointment booking...', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'appointment.html';
+            }, 1000);
+        }
+        
+        // Show contact options
+        function showContactOptions() {
+            const modalContent = `
+                <div style="padding: 1rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">Contact Dr. Sarah Smith</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                        <button class="btn btn-primary" onclick="callDoctor()" style="justify-content: flex-start;">
+                            <i class="fas fa-phone"></i> Call Now: +1 (555) 123-4567
+                        </button>
+                        <button class="btn btn-outline" onclick="emailDoctor()" style="justify-content: flex-start;">
+                            <i class="fas fa-envelope"></i> Send Email
+                        </button>
+                        <button class="btn btn-outline" onclick="sendMessage()" style="justify-content: flex-start;">
+                            <i class="fas fa-comment"></i> Send Secure Message
+                        </button>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">
+                        <i class="fas fa-info-circle"></i>
+                        For emergencies, please call emergency services
+                    </p>
+                </div>
+            `;
+            
+            showCustomModal('Contact Options', modalContent);
+        }
+        
+        // Call doctor
+        function callDoctor() {
+            if (confirm('Call Dr. Sarah Smith at +1 (555) 123-4567?')) {
+                window.location.href = 'tel:+15551234567';
+            }
+        }
+        
+        // Email doctor
+        function emailDoctor() {
+            window.location.href = 'mailto:sarah.smith@medcarehospital.com?subject=Appointment Inquiry&body=Dear Dr. Smith,';
+        }
+        
+        // Send message
+        function sendMessage() {
+            showNotification('Secure messaging feature coming soon!', 'info');
+        }
+        
+        // Share doctor profile
+        function shareDoctorProfile() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dr. Sarah Smith - Cardiologist',
+                    text: 'Check out Dr. Sarah Smith\'s profile at MedCare Hospital',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback
+                navigator.clipboard.writeText(window.location.href);
+                showNotification('Profile link copied to clipboard!', 'success');
+            }
+        }
+        
+        // View all reviews
+        function viewAllReviews() {
+            showNotification('Loading all reviews...', 'info');
+            // In a real app, this would navigate to reviews page
+        }
+        
+        // Custom modal function
+        function showCustomModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow = 'auto'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+            
+            // Close on outside click
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.remove();
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Add modal styles if not already added
+        if (!document.querySelector('style[data-modal-styles]')) {
+            const modalStyles = document.createElement('style');
+            modalStyles.setAttribute('data-modal-styles', 'true');
+            modalStyles.textContent = `
+                .modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 2000;
+                    padding: 20px;
+                    animation: fadeIn 0.3s ease;
+                }
+                
+                .modal-content {
+                    background: white;
+                    border-radius: var(--radius-lg);
+                    max-width: 90%;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    animation: slideUp 0.3s ease;
+                }
+                
+                .modal-header {
+                    padding: 1.5rem;
+                    border-bottom: 1px solid var(--border-color);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    position: sticky;
+                    top: 0;
+                    background: white;
+                    z-index: 1;
+                }
+                
+                .modal-header h3 {
+                    margin: 0;
+                    color: var(--secondary-color);
+                }
+                
+                .modal-close {
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: var(--text-light);
+                    padding: 0.25rem;
+                }
+                
+                .modal-close:hover {
+                    color: var(--text-color);
+                }
+                
+                .modal-body {
+                    padding: 1.5rem;
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from { transform: translateY(50px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(modalStyles);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .records-container {padding: 20px;}
+        .search-bar {display: flex; gap: 10px; margin: 20px 0;}
+        .search-bar input {flex: 1; padding: 12px;}
+        .filters {display: flex; gap: 15px; margin: 20px 0;}
+        .record-card {background: white; padding: 20px; margin: 15px 0; border-radius: 10px;}
+        .record-header {display: flex; justify-content: space-between;}
+        .record-details {margin-top: 15px;}
+        .btn-group {display: flex; gap: 10px;}
+    </style>
+</head>
+<body>
+    <div class="records-container">
+        <h1><i class="fas fa-file-medical"></i> Medical Records Portal</h1>
+        <p class="secure-note"><i class="fas fa-shield-alt"></i> Secure Access Only</p>
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by patient name, ID, or condition..." onkeyup="searchRecords()">
+            <button class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            <button class="btn btn-outline" onclick="advancedSearch()">
+                <i class="fas fa-filter"></i> Advanced Filter
+            </button>
+        </div>
+
+        <div class="filters">
+            <select class="filter-select" onchange="filterByDepartment()">
+                <option>All Departments</option>
+                <option>Cardiology</option>
+                <option>Neurology</option>
+                <option>Orthopedics</option>
+            </select>
+            <select class="filter-select" onchange="filterByStatus()">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Discharged</option>
+                <option>Follow-up</option>
+            </select>
+            <input type="date" class="filter-select" onchange="filterByDate()">
+            <button class="btn btn-outline" onclick="clearFilters()">
+                <i class="fas fa-times"></i> Clear Filters
+            </button>
+        </div>
+
+        <div id="recordsList">
+            <div class="record-card">
+                <div class="record-header">
+                    <div>
+                        <h3>John Doe <span class="badge badge-primary">Patient ID: P1001</span></h3>
+                        <p>Age: 45 | Blood Type: O+ | Allergies: Penicillin</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="viewRecord(1)">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="editRecord(1)">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteRecord(1)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="record-details">
+                    <p><strong>Primary Diagnosis:</strong> Hypertension</p>
+                    <p><strong>Last Visit:</strong> Dec 10, 2023</p>
+                    <p><strong>Medications:</strong> Lisinopril 10mg daily</p>
+                </div>
+            </div>
+
+            <div class="record-card">
+                <div class="record-header">
+                    <div>
+                        <h3>Mary Smith <span class="badge badge-success">Patient ID: P1002</span></h3>
+                        <p>Age: 32 | Blood Type: A+ | Allergies: None</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </div>
+                <div class="record-details">
+                    <p><strong>Primary Diagnosis:</strong> Migraine</p>
+                    <p><strong>Last Visit:</strong> Dec 12, 2023</p>
+                    <p><strong>Medications:</strong> Sumatriptan 50mg as needed</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-primary" onclick="addNewRecord()">
+                <i class="fas fa-plus"></i> Add New Medical Record
+            </button>
+            <button class="btn btn-outline" onclick="exportRecords()">
+                <i class="fas fa-download"></i> Export Records
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function searchRecords() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const records = document.querySelectorAll('.record-card');
+            
+            records.forEach(record => {
+                const text = record.textContent.toLowerCase();
+                record.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        function advancedSearch() {
+            alert("Open advanced search panel");
+        }
+        
+        function viewRecord(id) {
+            alert(`Viewing record #${id}`);
+        }
+        
+        function addNewRecord() {
+            alert("Open new record form");
+        }
+        
+        function exportRecords() {
+            alert("Exporting records to CSV...");
+        }
+        
+        function filterByDepartment() {
+            alert("Filtering by department...");
+        }
+    </script>
+</body>
+</html>

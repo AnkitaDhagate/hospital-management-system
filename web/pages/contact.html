@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contact-container {max-width: 1200px; margin: 0 auto; padding: 20px;}
+        .contact-grid {display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0;}
+        .location-card {background: white; padding: 25px; border-radius: 10px; margin: 20px 0;}
+        .emergency-box {background: #ffeaea; padding: 20px; border-radius: 10px; text-align: center;}
+        .contact-form {background: white; padding: 30px; border-radius: 10px;}
+        .form-group {margin: 20px 0;}
+        input, select, textarea {width: 100%; padding: 12px; margin: 8px 0;}
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <h1><i class="fas fa-map-marker-alt"></i> Contact MedCare Hospital</h1>
+        
+        <div class="emergency-box">
+            <h2 style="color: #e74c3c;"><i class="fas fa-ambulance"></i> EMERGENCY CONTACT</h2>
+            <p class="emergency-number">📞 +1 (800) 911-HELP (4357)</p>
+            <p>24/7 Emergency Services Available</p>
+            <button class="btn btn-danger" onclick="callEmergency()">
+                <i class="fas fa-phone"></i> Call Emergency Now
+            </button>
+        </div>
+
+        <div class="contact-grid">
+            <div>
+                <h2><i class="fas fa-hospital"></i> Our Locations</h2>
+                
+                <div class="location-card">
+                    <h3><i class="fas fa-map-pin"></i> Main Hospital</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Medical Street, Health City, HC 12345</p>
+                    <p><i class="fas fa-phone"></i> +1 (800) 123-4567</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                    <button class="btn btn-outline" onclick="getDirections()">
+                        <i class="fas fa-directions"></i> Get Directions
+                    </button>
+                </div>
+
+                <div class="location-card">
+                    <h3><i class="fas fa-clinic-medical"></i> Northside Clinic</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 456 Health Avenue, North District, HC 12346</p>
+                    <p><i class="fas fa-phone"></i> +1 (800) 123-4568</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 8AM-8PM, Sat: 9AM-5PM</p>
+                </div>
+
+                <div class="location-card">
+                    <h3><i class="fas fa-heartbeat"></i> Cardiology Center</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 789 Heart Street, Medical Complex, HC 12347</p>
+                    <p><i class="fas fa-phone"></i> +1 (800) 123-4569</p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3><i class="fas fa-clock"></i> General Hours</h3>
+                    <p>Main Hospital: 24/7</p>
+                    <p>Outpatient Services: 8AM-8PM Daily</p>
+                    <p>Pharmacy: 7AM-10PM Daily</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2><i class="fas fa-envelope"></i> Contact Form</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select>
+                            <option>General Inquiry</option>
+                            <option>Appointments</option>
+                            <option>Billing</option>
+                            <option>Emergency</option>
+                            <option>Medical Records</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Message *</label>
+                        <textarea rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+                
+                <div style="margin-top: 40px;">
+                    <h3><i class="fas fa-headset"></i> Other Contact Methods</h3>
+                    <p><i class="fas fa-envelope"></i> Email: info@medcarehospital.com</p>
+                    <p><i class="fas fa-fax"></i> Fax: +1 (800) 123-4570</p>
+                    <p><i class="fas fa-comments"></i> Live Chat: Available 9AM-5PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function callEmergency() {
+            if (confirm("Call Emergency Services?")) {
+                window.location.href = "tel:+18009114357";
+            }
+        }
+        
+        function getDirections() {
+            window.open("https://maps.google.com/?q=MedCare+Hospital");
+        }
+        
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Thank you! Your message has been sent.");
+            this.reset();
+        });
+    </script>
+</body>
+</html>

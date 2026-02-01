@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - MedCare Hospital</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .dashboard-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+        }
+        
+        .patient-welcome h1 {
+            margin: 0 0 0.5rem 0;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+        
+        .patient-welcome p {
+            margin: 0;
+            color: var(--text-light);
+        }
+        
+        .patient-id {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-light);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+        }
+        
+        .patient-id i {
+            color: var(--primary-color);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .emergency-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .emergency-card h4 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .emergency-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--accent-color);
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .emergency-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-info h3 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+        
+        .stat-info p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+        
+        .section-header a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .appointments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .appointment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .appointment-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .appointment-info h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--secondary-color);
+        }
+        
+        .appointment-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .appointment-details i {
+            margin-right: 0.25rem;
+        }
+        
+        .appointment-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-scheduled {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-cancelled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .medication-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .medication-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1rem;
+            transition: var(--transition);
+        }
+        
+        .medication-card:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .medication-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        .medication-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .medication-dosage {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+        
+        .medication-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .medication-instructions {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        .health-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .metric-trend {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+        
+        .trend-up {
+            color: #4caf50;
+        }
+        
+        .trend-down {
+            color: #ff5252;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .action-btn span {
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .appointment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .health-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="heart-rate">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100px" height="50px" viewBox="0 0 1280.000000 640.000000">
+                    <path fill="#3498db" d="M0 320v320h1280V0H0v320zm345-175l95 145 100-150 95 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145 100 145 95-150 100 150 95-145"/>
+                </svg>
+            </div>
+            <div class="loading-text">Loading Patient Dashboard...</div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span class="logo-text">MedCare<span class="logo-highlight">Hospital</span></span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="patient-dashboard.html" class="nav-link active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="appointment.html" class="nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="medical-records.html" class="nav-link">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Medical Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="billing.html" class="nav-link">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Billing</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <div class="user-dropdown">
+                        <button class="btn btn-outline" id="userMenuBtn">
+                            <i class="fas fa-user-circle"></i>
+                            <span>John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="userMenu">
+                            <a href="patient-profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="../index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="dashboard-page">
+        <div class="dashboard-container">
+            <div class="dashboard-header animate__animated animate__fadeInDown">
+                <div class="patient-welcome">
+                    <h1>Welcome back, John!</h1>
+                    <p>Here's your health overview and upcoming appointments</p>
+                </div>
+                <div class="patient-id">
+                    <i class="fas fa-id-card"></i>
+                    <span>Patient ID: P-100123</span>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Sidebar -->
+                <div class="sidebar animate__animated animate__fadeInLeft">
+                    <ul class="sidebar-menu">
+                        <li>
+                            <a href="patient-dashboard.html" class="active">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="appointment.html">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Appointments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="medical-records.html">
+                                <i class="fas fa-file-medical"></i>
+                                <span>Medical Records</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prescriptions.html">
+                                <i class="fas fa-prescription-bottle-alt"></i>
+                                <span>Prescriptions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="billing.html">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                <span>Billing & Payments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="test-results.html">
+                                <i class="fas fa-vial"></i>
+                                <span>Test Results</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="patient-profile.html">
+                                <i class="fas fa-user"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings.html">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="emergency-card">
+                        <h4><i class="fas fa-ambulance"></i> Emergency</h4>
+                        <p>Need immediate medical assistance?</p>
+                        <a href="tel:+18001234567" class="emergency-btn">
+                            <i class="fas fa-phone"></i> Call Emergency
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="dashboard-content">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="upcomingAppointments">3</h3>
+                                <p>Upcoming Appointments</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                                <i class="fas fa-prescription-bottle-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="activePrescriptions">2</h3>
+                                <p>Active Prescriptions</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="medicalRecords">15</h3>
+                                <p>Medical Records</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="pendingBills">1</h3>
+                                <p>Pending Bills</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="section-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+                        <div class="section-header">
+                            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                        </div>
+                        <div class="quick-actions">
+                            <a href="appointment.html" class="action-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                                <span>Book Appointment</span>
+                            </a>
+                            <a href="prescriptions.html" class="action-btn">
+                                <i class="fas fa-prescription-bottle-alt"></i>
+                                <span>View Prescriptions</span>
+                            </a>
+                            <a href="test-results.html" class="action-btn">
+                                <i class="fas fa-vial"></i>
+                                <span>Test Results</span>
+                            </a>
+                            <a href="billing.html" class="action-btn">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Make Payment</span>
+                            </a>
+                            <a href="messages.html" class="action-btn">
+                                <i class="fas fa-comments"></i>
+                                <span>Messages</span>
+                            </a>
+                            <a href="patient-profile.html" class="action-btn">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Update Profile</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Appointments -->
+                    <div class="section-card animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+                        <div class="section-header">
+                            <h2><i class="fas fa-calendar-alt"></i> Upcoming Appointments</h2>
+                            <a href="appointment.html">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="appointments-list" id="upcomingAppointmentsList">
+                            <!-- Appointments will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Active Medications -->
+                    <div class="section-card animate__animated animate__fadeInUp" style="animation-delay: 0.7s">
+                        <div class="section-header">
+                            <h2><i class="fas fa-pills"></i> Active Medications</h2>
+                            <a href="prescriptions.html">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="medication-grid" id="activeMedications">
+                            <!-- Medications will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Health Metrics -->
+                    <div class="section-card animate__animated animate__fadeInUp" style="animation-delay: 0.8s">
+                        <div class="section-header">
+                            <h2><i class="fas fa-heartbeat"></i> Health Metrics</h2>
+                            <a href="health-tracker.html">
+                                Track History <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="health-metrics" id="healthMetrics">
+                            <!-- Health metrics will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Appointment Modal -->
+    <div class="modal" id="quickAppointmentModal" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>Book Quick Appointment</h3>
+                <button class="modal-close" onclick="closeQuickAppointmentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="quick-appointment-form">
+                    <div class="form-group">
+                        <label>Select Doctor</label>
+                        <select id="quickDoctorSelect" class="form-control">
+                            <option value="">Choose a doctor</option>
+                            <option value="1">Dr. Sarah Smith (Cardiologist)</option>
+                            <option value="2">Dr. Robert Johnson (Neurologist)</option>
+                            <option value="3">Dr. Michael Williams (Orthopedic)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Date</label>
+                        <input type="date" id="quickAppointmentDate" class="form-control" 
+                               min="${new Date().toISOString().split('T')[0]}">
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Visit</label>
+                        <textarea id="quickAppointmentReason" class="form-control" rows="3" 
+                                  placeholder="Briefly describe your symptoms or reason for appointment"></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="submitQuickAppointment()">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Patient data
+        const patientData = {
+            name: "John Doe",
+            patientId: "P-100123",
+            upcomingAppointments: 3,
+            activePrescriptions: 2,
+            medicalRecords: 15,
+            pendingBills: 1
+        };
+        
+        // Appointments data
+        const appointments = [
+            {
+                id: 1,
+                doctor: "Dr. Sarah Smith",
+                specialty: "Cardiologist",
+                date: "2024-01-15",
+                time: "10:30 AM",
+                status: "scheduled",
+                type: "Follow-up"
+            },
+            {
+                id: 2,
+                doctor: "Dr. Michael Williams",
+                specialty: "Orthopedic Surgeon",
+                date: "2024-01-18",
+                time: "02:00 PM",
+                status: "scheduled",
+                type: "Consultation"
+            },
+            {
+                id: 3,
+                doctor: "Dr. Emily Chen",
+                specialty: "Dermatologist",
+                date: "2024-01-22",
+                time: "11:00 AM",
+                status: "scheduled",
+                type: "Check-up"
+            }
+        ];
+        
+        // Medications data
+        const medications = [
+            {
+                name: "Atorvastatin",
+                dosage: "20mg",
+                frequency: "Once daily",
+                duration: "30 days",
+                instructions: "Take at bedtime",
+                doctor: "Dr. Sarah Smith"
+            },
+            {
+                name: "Metformin",
+                dosage: "500mg",
+                frequency: "Twice daily",
+                duration: "90 days",
+                instructions: "Take with meals",
+                doctor: "Dr. Sarah Smith"
+            }
+        ];
+        
+        // Health metrics data
+        const healthMetrics = [
+            {
+                name: "Blood Pressure",
+                value: "120/80",
+                unit: "mmHg",
+                trend: "down",
+                status: "normal"
+            },
+            {
+                name: "Heart Rate",
+                value: "72",
+                unit: "bpm",
+                trend: "stable",
+                status: "normal"
+            },
+            {
+                name: "Blood Sugar",
+                value: "95",
+                unit: "mg/dL",
+                trend: "down",
+                status: "normal"
+            },
+            {
+                name: "Weight",
+                value: "75",
+                unit: "kg",
+                trend: "down",
+                status: "improving"
+            }
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            setupUserMenu();
+            initQuickAppointmentDate();
+        });
+        
+        // Load dashboard data
+        function loadDashboardData() {
+            // Update stats
+            document.getElementById('upcomingAppointments').textContent = patientData.upcomingAppointments;
+            document.getElementById('activePrescriptions').textContent = patientData.activePrescriptions;
+            document.getElementById('medicalRecords').textContent = patientData.medicalRecords;
+            document.getElementById('pendingBills').textContent = patientData.pendingBills;
+            
+            // Load appointments
+            loadAppointments();
+            
+            // Load medications
+            loadMedications();
+            
+            // Load health metrics
+            loadHealthMetrics();
+        }
+        
+        // Load appointments
+        function loadAppointments() {
+            const container = document.getElementById('upcomingAppointmentsList');
+            
+            if (appointments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h4>No Upcoming Appointments</h4>
+                        <p>You don't have any scheduled appointments.</p>
+                        <button class="btn btn-primary" onclick="showQuickAppointmentModal()">
+                            <i class="fas fa-calendar-plus"></i> Book Appointment
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            appointments.forEach(appointment => {
+                const date = new Date(appointment.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                html += `
+                    <div class="appointment-item">
+                        <div class="appointment-info">
+                            <h4>${appointment.doctor}</h4>
+                            <div class="appointment-details">
+                                <span><i class="fas fa-stethoscope"></i> ${appointment.specialty}</span>
+                                <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
+                                <span><i class="fas fa-clock"></i> ${appointment.time}</span>
+                                <span><i class="fas fa-info-circle"></i> ${appointment.type}</span>
+                            </div>
+                        </div>
+                        <div class="appointment-status status-${appointment.status}">
+                            ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load medications
+        function loadMedications() {
+            const container = document.getElementById('activeMedications');
+            
+            if (medications.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-pills"></i>
+                        <h4>No Active Medications</h4>
+                        <p>You don't have any active prescriptions.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            medications.forEach(medication => {
+                html += `
+                    <div class="medication-card">
+                        <div class="medication-header">
+                            <div class="medication-name">${medication.name}</div>
+                            <div class="medication-dosage">${medication.dosage}</div>
+                        </div>
+                        <div class="medication-details">
+                            <div><strong>Frequency:</strong> ${medication.frequency}</div>
+                            <div><strong>Duration:</strong> ${medication.duration}</div>
+                            <div><strong>Prescribed by:</strong> ${medication.doctor}</div>
+                        </div>
+                        <div class="medication-instructions">
+                            <i class="fas fa-info-circle"></i> ${medication.instructions}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load health metrics
+        function loadHealthMetrics() {
+            const container = document.getElementById('healthMetrics');
+            
+            let html = '';
+            healthMetrics.forEach(metric => {
+                const trendIcon = metric.trend === 'up' ? 'fa-arrow-up' : 
+                                metric.trend === 'down' ? 'fa-arrow-down' : 'fa-minus';
+                const trendClass = metric.trend === 'up' ? 'trend-up' : 
+                                 metric.trend === 'down' ? 'trend-down' : '';
+                
+                html += `
+                    <div class="metric-card">
+                        <div class="metric-value">${metric.value}</div>
+                        <div class="metric-label">${metric.name}</div>
+                        <div class="metric-trend ${trendClass}">
+                            <i class="fas ${trendIcon}"></i>
+                            <span>${metric.status}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Setup user menu
+        function setupUserMenu() {
+            const userMenuBtn = document.getElementById('userMenuBtn');
+            const userMenu = document.getElementById('userMenu');
+            
+            userMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userMenu.classList.toggle('show');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function() {
+                userMenu.classList.remove('show');
+            });
+            
+            // Add styles for dropdown
+            const dropdownStyles = document.createElement('style');
+            dropdownStyles.textContent = `
+                .user-dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+                
+                .dropdown-menu {
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    background: white;
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow-lg);
+                    min-width: 200px;
+                    display: none;
+                    z-index: 1000;
+                    margin-top: 0.5rem;
+                    overflow: hidden;
+                }
+                
+                .dropdown-menu.show {
+                    display: block;
+                    animation: fadeIn 0.2s ease;
+                }
+                
+                .dropdown-menu a {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    padding: 0.75rem 1rem;
+                    color: var(--text-color);
+                    text-decoration: none;
+                    transition: var(--transition);
+                }
+                
+                .dropdown-menu a:hover {
+                    background: var(--bg-light);
+                }
+                
+                .dropdown-divider {
+                    height: 1px;
+                    background: var(--border-color);
+                    margin: 0.5rem 0;
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(dropdownStyles);
+        }
+        
+        // Initialize quick appointment date
+        function initQuickAppointmentDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('quickAppointmentDate').valueAsDate = tomorrow;
+        }
+        
+        // Show quick appointment modal
+        function showQuickAppointmentModal() {
+            document.getElementById('quickAppointmentModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close quick appointment modal
+        function closeQuickAppointmentModal() {
+            document.getElementById('quickAppointmentModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Submit quick appointment
+        function submitQuickAppointment() {
+            const doctor = document.getElementById('quickDoctorSelect').value;
+            const date = document.getElementById('quickAppointmentDate').value;
+            const reason = document.getElementById('quickAppointmentReason').value.trim();
+            
+            if (!doctor || !date || !reason) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Simulate appointment booking
+            showNotification('Booking your appointment...', 'success');
+            
+            setTimeout(() => {
+                closeQuickAppointmentModal();
+                showNotification('Appointment booked successfully!', 'success');
+                
+                // Refresh appointments list
+                appointments.unshift({
+                    id: appointments.length + 1,
+                    doctor: "Dr. Sarah Smith",
+                    specialty: "Cardiologist",
+                    date: date,
+                    time: "02:30 PM",
+                    status: "scheduled",
+                    type: "Consultation"
+                });
+                
+                patientData.upcomingAppointments++;
+                loadDashboardData();
+            }, 1500);
+        }
+        
+        // View appointment details
+        function viewAppointmentDetails(appointmentId) {
+            const appointment = appointments.find(a => a.id === appointmentId);
+            if (!appointment) return;
+            
+            const modalContent = `
+                <div class="appointment-details-modal">
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+                        <h4 style="margin: 0 0 1rem 0; color: var(--secondary-color);">Appointment Details</h4>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-light);">Doctor:</span>
+                                <span style="font-weight: 500;">${appointment.doctor}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-light);">Specialty:</span>
+                                <span>${appointment.specialty}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-light);">Date:</span>
+                                <span>${new Date(appointment.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-light);">Time:</span>
+                                <span>${appointment.time}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-light);">Status:</span>
+                                <span class="appointment-status status-${appointment.status}" style="display: inline-block;">
+                                    ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: var(--secondary-color);">Preparation Instructions</h4>
+                        <ul style="color: var(--text-light); padding-left: 1.5rem; margin: 0;">
+                            <li>Bring your insurance card and photo ID</li>
+                            <li>Arrive 15 minutes before your scheduled time</li>
+                            <li>Bring a list of current medications</li>
+                            <li>Fast for 8 hours if blood work is scheduled</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-primary" style="flex: 1;" onclick="rescheduleAppointment(${appointment.id})">
+                            <i class="fas fa-calendar-alt"></i> Reschedule
+                        </button>
+                        <button class="btn btn-outline" style="flex: 1;" onclick="cancelAppointment(${appointment.id})">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            showCustomModal('Appointment Details', modalContent);
+        }
+        
+        // Reschedule appointment
+        function rescheduleAppointment(appointmentId) {
+            showNotification('Redirecting to rescheduling...', 'info');
+            // In a real app, this would open rescheduling interface
+        }
+        
+        // Cancel appointment
+        function cancelAppointment(appointmentId) {
+            if (confirm('Are you sure you want to cancel this appointment?')) {
+                showNotification('Cancelling appointment...', 'info');
+                
+                setTimeout(() => {
+                    const index = appointments.findIndex(a => a.id === appointmentId);
+                    if (index !== -1) {
+                        appointments[index].status = 'cancelled';
+                        patientData.upcomingAppointments--;
+                        loadDashboardData();
+                        showNotification('Appointment cancelled successfully', 'success');
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Custom modal function
+        function showCustomModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow = 'auto'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+            
+            // Close on outside click
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.remove();
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Add modal styles if not already added
+        if (!document.querySelector('style[data-modal-styles]')) {
+            const modalStyles = document.createElement('style');
+            modalStyles.setAttribute('data-modal-styles', 'true');
+            modalStyles.textContent = `
+                .modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 2000;
+                    padding: 20px;
+                    animation: fadeIn 0.3s ease;
+                }
+                
+                .modal-content {
+                    background: white;
+                    border-radius: var(--radius-lg);
+                    max-width: 90%;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    animation: slideUp 0.3s ease;
+                }
+                
+                .modal-header {
+                    padding: 1.5rem;
+                    border-bottom: 1px solid var(--border-color);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    position: sticky;
+                    top: 0;
+                    background: white;
+                    z-index: 1;
+                }
+                
+                .modal-header h3 {
+                    margin: 0;
+                    color: var(--secondary-color);
+                }
+                
+                .modal-close {
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: var(--text-light);
+                    padding: 0.25rem;
+                }
+                
+                .modal-close:hover {
+                    color: var(--text-color);
+                }
+                
+                .modal-body {
+                    padding: 1.5rem;
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from { transform: translateY(50px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(modalStyles);
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('quickAppointmentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQuickAppointmentModal();
+            }
+        });
+    </script>
+</body>
+</html>
